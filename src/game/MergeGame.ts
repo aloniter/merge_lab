@@ -378,7 +378,7 @@ export class MergeGame {
 
   private restart(): void {
     if (this.level) {
-      this.loadLevel(this.level, this.onComplete || undefined)
+      this.loadLevel(this.level, this.onComplete || undefined, this.onExit || undefined)
     }
   }
 
