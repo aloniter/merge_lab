@@ -137,7 +137,34 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   margin-bottom: 1rem;
+}
+
+.game-header .back-btn {
+  padding: 0.45rem 0.85rem;
+  background: white;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.game-header .back-btn:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+.game-header .back-btn:active {
+  transform: scale(0.97);
 }
 
 .moves-counter {
@@ -146,23 +173,23 @@ footer {
   color: var(--primary-color);
 }
 
-.reset-btn {
+.game-header .reset-btn {
   padding: 0.5rem 1rem;
   background: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.reset-btn:hover {
+.game-header .reset-btn:hover {
   background: #4f46e5;
 }
 
-.reset-btn:active {
+.game-header .reset-btn:active {
   transform: scale(0.95);
 }
 
@@ -215,9 +242,13 @@ footer {
 
 /* Game Header Extended */
 .level-info {
+  padding: 0.35rem 0.75rem;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #64748b;
+  color: #3730a3;
 }
 
 /* Orders Panel */
