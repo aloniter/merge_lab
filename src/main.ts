@@ -107,33 +107,33 @@ class App {
       </main>
 
       <footer class="pb-10 pt-4 px-6 w-full max-w-md mx-auto z-10 fixed bottom-0 left-1/2 -translate-x-1/2">
-        <div class="flex justify-around items-center px-2 py-4 bg-white/40 dark:bg-black/20 backdrop-blur-xl rounded-[2.5rem] border border-white/40 dark:border-white/5 shadow-sm">
+        <div class="flex justify-around items-center px-3 py-4 bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl rounded-[2.5rem] border border-gray-200/50 dark:border-white/20 shadow-lg dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
           <button class="nav-btn flex flex-col items-center gap-1 group w-16" data-screen="editor">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-              <span class="material-symbols-outlined text-[24px] text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">edit</span>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-all">
+              <span class="material-symbols-outlined text-[24px] text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">edit</span>
             </div>
-            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">Editor</span>
+            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">Editor</span>
           </button>
 
           <button class="nav-btn flex flex-col items-center gap-1 group w-16" data-screen="insights">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-              <span class="material-symbols-outlined text-[24px] text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">monitoring</span>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-all">
+              <span class="material-symbols-outlined text-[24px] text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">monitoring</span>
             </div>
-            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">Insights</span>
+            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">Insights</span>
           </button>
 
           <button class="nav-btn flex flex-col items-center gap-1 group w-16" data-screen="settings">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-              <span class="material-symbols-outlined text-[24px] text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">settings</span>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-all">
+              <span class="material-symbols-outlined text-[24px] text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">settings</span>
             </div>
-            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">Settings</span>
+            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">Settings</span>
           </button>
 
           <button class="nav-btn flex flex-col items-center gap-1 group w-16" data-screen="main-menu">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-              <span class="material-symbols-outlined text-[24px] text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">home</span>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-all">
+              <span class="material-symbols-outlined text-[24px] text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">home</span>
             </div>
-            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-pink-400 transition-colors">Home</span>
+            <span class="text-[10px] font-bold tracking-wide uppercase text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-pink-400 transition-all">Home</span>
           </button>
         </div>
       </footer>
@@ -175,21 +175,28 @@ class App {
     // Update active button styling
     const buttons = document.querySelectorAll<HTMLButtonElement>('.nav-btn')
     buttons.forEach(btn => {
+      const iconContainer = btn.querySelector('div')
       const icon = btn.querySelector('.material-symbols-outlined')
       const label = btn.querySelector('span:last-child')
 
       if (btn.dataset.screen === screen) {
-        // Active state
-        icon?.classList.remove('text-gray-500', 'dark:text-gray-400')
+        // Active state - with glow and background
+        iconContainer?.classList.add('bg-primary/15', 'dark:bg-pink-400/20')
+        icon?.classList.remove('text-gray-600', 'dark:text-gray-300')
         icon?.classList.add('text-primary', 'dark:text-pink-400')
-        label?.classList.remove('text-gray-400', 'dark:text-gray-500')
-        label?.classList.add('text-primary', 'dark:text-pink-400')
+        label?.classList.remove('text-gray-600', 'dark:text-gray-300')
+        label?.classList.add('text-primary', 'dark:text-pink-400', 'font-extrabold')
+        // Add glow effect
+        icon?.setAttribute('style', 'filter: drop-shadow(0 0 8px rgba(238, 43, 140, 0.4))')
       } else {
         // Inactive state
+        iconContainer?.classList.remove('bg-primary/15', 'dark:bg-pink-400/20')
         icon?.classList.remove('text-primary', 'dark:text-pink-400')
-        icon?.classList.add('text-gray-500', 'dark:text-gray-400')
-        label?.classList.remove('text-primary', 'dark:text-pink-400')
-        label?.classList.add('text-gray-400', 'dark:text-gray-500')
+        icon?.classList.add('text-gray-600', 'dark:text-gray-300')
+        label?.classList.remove('text-primary', 'dark:text-pink-400', 'font-extrabold')
+        label?.classList.add('text-gray-600', 'dark:text-gray-300')
+        // Remove glow effect
+        icon?.removeAttribute('style')
       }
     })
 
@@ -294,12 +301,15 @@ class App {
     // Clear active nav button styling
     const buttons = document.querySelectorAll<HTMLButtonElement>('.nav-btn')
     buttons.forEach(btn => {
+      const iconContainer = btn.querySelector('div')
       const icon = btn.querySelector('.material-symbols-outlined')
       const label = btn.querySelector('span:last-child')
+      iconContainer?.classList.remove('bg-primary/15', 'dark:bg-pink-400/20')
       icon?.classList.remove('text-primary', 'dark:text-pink-400')
-      icon?.classList.add('text-gray-500', 'dark:text-gray-400')
-      label?.classList.remove('text-primary', 'dark:text-pink-400')
-      label?.classList.add('text-gray-400', 'dark:text-gray-500')
+      icon?.classList.add('text-gray-600', 'dark:text-gray-300')
+      label?.classList.remove('text-primary', 'dark:text-pink-400', 'font-extrabold')
+      label?.classList.add('text-gray-600', 'dark:text-gray-300')
+      icon?.removeAttribute('style')
     })
   }
 
