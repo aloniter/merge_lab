@@ -79,15 +79,29 @@ export class MergeGame {
     }
 
     this.containerEl.innerHTML = `
-      <div class="game-header">
-        <button class="back-btn">← Back</button>
-        <span class="level-info">Level ${this.level.id}</span>
-        <span class="moves-counter">Moves: ${this.movesRemaining}</span>
-        <button class="reset-btn">Restart</button>
-      </div>
-      <div class="orders-panel"></div>
-      <div class="game-grid-wrapper">
-        <div class="game-grid"></div>
+      <div class="px-4 py-6 bg-[#1a1a2e] min-h-screen pb-32">
+        <!-- Game Header -->
+        <div class="flex items-center justify-between mb-4">
+          <button class="back-btn px-4 py-2 bg-white/15 backdrop-blur-md border border-white/30 rounded-xl text-white font-bold hover:bg-white/25 transition-all active:scale-95 flex items-center gap-2 shadow-lg">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+          </button>
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 bg-primary/25 border border-primary/50 rounded-full text-primary text-sm font-bold shadow-md">
+              Level ${this.level.id}
+            </span>
+            <span class="moves-counter px-3 py-1 bg-green-500/25 border border-green-500/50 rounded-full text-green-400 text-sm font-bold shadow-md">
+              Moves: ${this.movesRemaining}
+            </span>
+          </div>
+          <button class="reset-btn px-4 py-2 bg-white/15 backdrop-blur-md border border-white/30 rounded-xl text-white font-bold hover:bg-white/25 transition-all active:scale-95 flex items-center gap-2 shadow-lg">
+            <span class="material-symbols-outlined text-lg">refresh</span>
+          </button>
+        </div>
+
+        <div class="orders-panel"></div>
+        <div class="game-grid-wrapper">
+          <div class="game-grid"></div>
+        </div>
       </div>
     `
 
@@ -99,6 +113,8 @@ export class MergeGame {
 
     resetBtn.addEventListener('click', () => this.restart())
     backBtn.addEventListener('click', () => {
+      // Clean exit without logging win/fail
+      this.isGameOver = true
       if (this.onExit) this.onExit()
     })
 
@@ -286,19 +302,19 @@ export class MergeGame {
         <p class="overlay-subtitle">You completed all orders</p>
 
         <div class="win-stats">
-          <div class="win-stat">
-            <span class="win-stat-value">${movesUsed}</span>
-            <span class="win-stat-label">Moves</span>
+          <div class="stat-row">
+            <span>Moves Used</span>
+            <span>${movesUsed}</span>
           </div>
-          <div class="win-stat">
-            <span class="win-stat-value">${durationSec}s</span>
-            <span class="win-stat-label">Time</span>
+          <div class="stat-row">
+            <span>Time</span>
+            <span>${durationSec}s</span>
           </div>
         </div>
 
-        <button class="overlay-btn primary next-btn">Next Level</button>
-        <button class="overlay-btn replay-btn">Replay</button>
-        <button class="overlay-btn share-btn" data-share="${encodeURIComponent(shareText)}">Share Result</button>
+        <button class="overlay-btn primary next-btn px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-2xl font-bold text-lg transition-all hover:scale-105 active:scale-95 mt-4 shadow-lg">Next Level</button>
+        <button class="overlay-btn replay-btn px-8 py-3 bg-white/15 backdrop-blur-md border border-white/30 text-white rounded-xl font-semibold transition-all hover:bg-white/25 active:scale-95 shadow-md">Replay</button>
+        <button class="overlay-btn share-btn px-8 py-3 bg-white/15 backdrop-blur-md border border-white/30 text-white rounded-xl font-semibold transition-all hover:bg-white/25 active:scale-95 shadow-md" data-share="${encodeURIComponent(shareText)}">Share Result</button>
       </div>
     `
 
@@ -362,7 +378,7 @@ export class MergeGame {
       <div class="overlay-content">
         <h2 class="overlay-title">Out of Moves!</h2>
         <p class="overlay-subtitle">Try again</p>
-        <button class="overlay-btn primary">Retry</button>
+        <button class="overlay-btn primary px-8 py-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-bold text-lg transition-all hover:scale-105 active:scale-95 mt-4">Retry</button>
       </div>
     `
 
