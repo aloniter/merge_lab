@@ -14,9 +14,9 @@ export class AnalyticsService {
     levelId: number | null
     startTime: number | null
   } = {
-    levelId: null,
-    startTime: null,
-  }
+      levelId: null,
+      startTime: null,
+    }
 
   private constructor() {
     this.loadCurrentSession()
@@ -266,7 +266,7 @@ export class AnalyticsService {
 
   // Data management
 
-  clearAllData(): void {
+  clearAll(): void {
     localStorage.removeItem(this.storageKey)
     this.currentSession = { levelId: null, startTime: null }
   }

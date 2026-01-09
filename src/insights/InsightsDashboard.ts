@@ -27,12 +27,20 @@ export class InsightsDashboard {
     }
 
     this.containerEl.innerHTML = `
-      <div class="insights-container">
-        <h2 class="insights-title">Analytics Insights</h2>
-        ${this.renderOverview(allInsights)}
-        ${this.renderLevelSelector(allInsights)}
-        ${this.selectedLevelId ? this.renderLevelDetails(this.selectedLevelId) : ''}
-        ${this.renderActions()}
+      <div class="relative min-h-screen pb-32">
+        <!-- Background orbs -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          <div class="absolute top-[-10%] left-[10%] w-[80%] h-[50%] bg-purple-300/30 dark:bg-purple-900/20 rounded-full blur-[120px] animate-pulse-slow"></div>
+          <div class="absolute bottom-[10%] right-[-10%] w-[70%] h-[60%] bg-pink-300/30 dark:bg-primary/10 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div class="relative z-10 px-6 py-8 max-w-md mx-auto">
+          <h1 class="text-3xl font-black text-gray-900 dark:text-white mb-8">Insights</h1>
+          ${this.renderOverview(allInsights)}
+          ${this.renderLevelSelector(allInsights)}
+          ${this.selectedLevelId ? this.renderLevelDetails(this.selectedLevelId) : ''}
+          ${this.renderActions()}
+        </div>
       </div>
     `
 
@@ -41,9 +49,20 @@ export class InsightsDashboard {
 
   private renderEmptyState(): string {
     return `
-      <div class="insights-empty-state">
-        <h3>No Analytics Data Yet</h3>
-        <p>Play some levels to start tracking your progress!</p>
+      <div class="relative min-h-screen pb-32">
+        <!-- Background orbs -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          <div class="absolute top-[-10%] left-[10%] w-[80%] h-[50%] bg-purple-300/30 dark:bg-purple-900/20 rounded-full blur-[120px] animate-pulse-slow"></div>
+          <div class="absolute bottom-[10%] right-[-10%] w-[70%] h-[60%] bg-pink-300/30 dark:bg-primary/10 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div class="relative z-10 px-6 py-8 max-w-md mx-auto flex flex-col items-center justify-center h-[70vh]">
+          <div class="text-center bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-6xl text-primary mb-4 block">analytics</span>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Analytics Data Yet</h3>
+            <p class="text-gray-600 dark:text-gray-400">Play some levels to start tracking your progress!</p>
+          </div>
+        </div>
       </div>
     `
   }
@@ -55,30 +74,32 @@ export class InsightsDashboard {
 
     const mostPlayedLevel = insights.reduce((max, i) =>
       i.attempts > max.attempts ? i : max
-    , insights[0])
+      , insights[0])
 
     const hardestLevel = insights.reduce((min, i) =>
       i.winRate < min.winRate ? i : min
-    , insights[0])
+      , insights[0])
 
     return `
-      <div class="insights-section insights-overview">
-        <h3>Overview</h3>
-        <div class="insights-stat">
-          <span class="stat-label">Total Attempts</span>
-          <span class="stat-value">${totalAttempts}</span>
-        </div>
-        <div class="insights-stat">
-          <span class="stat-label">Overall Win Rate</span>
-          <span class="stat-value">${overallWinRate.toFixed(1)}%</span>
-        </div>
-        <div class="insights-stat">
-          <span class="stat-label">Most Played Level</span>
-          <span class="stat-value">Level ${mostPlayedLevel.levelId} (${mostPlayedLevel.attempts} attempts)</span>
-        </div>
-        <div class="insights-stat">
-          <span class="stat-label">Hardest Level</span>
-          <span class="stat-value">Level ${hardestLevel.levelId} (${hardestLevel.winRate.toFixed(1)}% win rate)</span>
+      <div class="bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-2xl p-6 mb-6">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Overview</h3>
+        <div class="space-y-3">
+          <div class="insights-stat">
+            <span class="stat-label">Total Attempts</span>
+            <span class="stat-value">${totalAttempts}</span>
+          </div>
+          <div class="insights-stat">
+            <span class="stat-label">Overall Win Rate</span>
+            <span class="stat-value">${overallWinRate.toFixed(1)}%</span>
+          </div>
+          <div class="insights-stat">
+            <span class="stat-label">Most Played Level</span>
+            <span class="stat-value">Level ${mostPlayedLevel.levelId} (${mostPlayedLevel.attempts} attempts)</span>
+          </div>
+          <div class="insights-stat">
+            <span class="stat-label">Hardest Level</span>
+            <span class="stat-value">Level ${hardestLevel.levelId} (${hardestLevel.winRate.toFixed(1)}% win rate)</span>
+          </div>
         </div>
       </div>
     `
@@ -86,9 +107,9 @@ export class InsightsDashboard {
 
   private renderLevelSelector(insights: LevelInsights[]): string {
     return `
-      <div class="insights-section">
-        <h3>Level Statistics</h3>
-        <select class="insights-level-select" id="level-selector">
+      <div class="bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-2xl p-6 mb-6">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Level Statistics</h3>
+        <select class="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white font-medium focus:outline-none focus:ring-4 focus:ring-primary/30 transition-all" id="level-selector">
           <option value="">Select a level...</option>
           ${insights.map(i => `
             <option value="${i.levelId}" ${i.levelId === this.selectedLevelId ? 'selected' : ''}>
@@ -106,52 +127,56 @@ export class InsightsDashboard {
 
     const failReasonsHTML = Object.keys(insight.failReasons).length > 0
       ? Object.entries(insight.failReasons).map(([reason, count]) => `
-          <div class="fail-reason-item">
-            <span class="fail-reason-label">${this.formatFailReason(reason)}</span>
-            <span class="fail-reason-count">${count} time${count > 1 ? 's' : ''}</span>
+          <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+            <span class="text-sm text-gray-600 dark:text-gray-400">${this.formatFailReason(reason)}</span>
+            <span class="text-sm font-semibold text-gray-900 dark:text-white">${count} time${count > 1 ? 's' : ''}</span>
           </div>
         `).join('')
-      : '<p style="color: #64748b; font-size: 0.875rem;">No failures recorded</p>'
+      : '<p class="text-gray-600 dark:text-gray-400 text-sm">No failures recorded</p>'
 
     return `
-      <div class="insights-section insights-level-details">
-        <h3>Level ${levelId} Details</h3>
-        <div class="insights-metric">
-          <span class="metric-label">Attempts</span>
-          <span class="metric-value">${insight.attempts}</span>
+      <div class="bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-2xl p-6 mb-6">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Level ${levelId} Details</h3>
+        <div class="space-y-3 mb-4">
+          <div class="flex justify-between items-center py-2 px-4 bg-white dark:bg-gray-800/50 rounded-lg">
+            <span class="metric-label">Attempts</span>
+            <span class="metric-value">${insight.attempts}</span>
+          </div>
+          <div class="flex justify-between items-center py-2 px-4 bg-white dark:bg-gray-800/50 rounded-lg">
+            <span class="metric-label">Win Rate</span>
+            <span class="metric-value">${insight.winRate.toFixed(1)}%</span>
+          </div>
+          <div class="flex justify-between items-center py-2 px-4 bg-white dark:bg-gray-800/50 rounded-lg">
+            <span class="metric-label">Wins / Fails</span>
+            <span class="metric-value">${insight.wins} / ${insight.fails}</span>
+          </div>
+          <div class="flex justify-between items-center py-2 px-4 bg-white dark:bg-gray-800/50 rounded-lg">
+            <span class="metric-label">Avg Duration</span>
+            <span class="metric-value">${insight.avgDuration.toFixed(1)}s</span>
+          </div>
+          <div class="flex justify-between items-center py-2 px-4 bg-white dark:bg-gray-800/50 rounded-lg">
+            <span class="metric-label">Avg Moves Used</span>
+            <span class="metric-value">${insight.avgMovesUsed.toFixed(1)}</span>
+          </div>
         </div>
-        <div class="insights-metric">
-          <span class="metric-label">Win Rate</span>
-          <span class="metric-value">${insight.winRate.toFixed(1)}%</span>
-        </div>
-        <div class="insights-metric">
-          <span class="metric-label">Wins / Fails</span>
-          <span class="metric-value">${insight.wins} / ${insight.fails}</span>
-        </div>
-        <div class="insights-metric">
-          <span class="metric-label">Avg Duration</span>
-          <span class="metric-value">${insight.avgDuration.toFixed(1)}s</span>
-        </div>
-        <div class="insights-metric">
-          <span class="metric-label">Avg Moves Used</span>
-          <span class="metric-value">${insight.avgMovesUsed.toFixed(1)}</span>
-        </div>
-        <div class="fail-reasons-breakdown">
-          <h4 style="margin: 0 0 0.5rem 0; font-size: 0.875rem; color: #64748b;">Fail Reasons</h4>
+        <div class="mb-4">
+          <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Fail Reasons</h4>
           ${failReasonsHTML}
         </div>
-        <button class="insights-btn primary" id="export-level-csv">Export Level CSV</button>
+        <button class="w-full px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold transition-all active:scale-95" id="export-level-csv">Export Level CSV</button>
       </div>
     `
   }
 
   private renderActions(): string {
     return `
-      <div class="insights-section insights-actions">
-        <h3>Actions</h3>
-        <button class="insights-btn primary" id="export-all-csv">Export All Insights CSV</button>
-        <button class="insights-btn" id="refresh-btn">Refresh Data</button>
-        <button class="insights-btn danger" id="clear-data-btn">Clear All Analytics</button>
+      <div class="bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-2xl p-6">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Actions</h3>
+        <div class="space-y-3">
+          <button class="w-full px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold transition-all active:scale-95" id="export-all-csv">Export All Insights CSV</button>
+          <button class="w-full px-6 py-3 bg-white/50 dark:bg-white/10 backdrop-blur-md border border-white/60 dark:border-white/10 text-gray-900 dark:text-white rounded-xl font-semibold hover:bg-white dark:hover:bg-white/20 transition-all active:scale-95" id="refresh-btn">Refresh Data</button>
+          <button class="w-full px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-all active:scale-95" id="clear-data-btn">Clear All Analytics</button>
+        </div>
       </div>
     `
   }
@@ -239,7 +264,7 @@ export class InsightsDashboard {
     )
 
     if (confirmed) {
-      this.analytics.clearAllData()
+      this.analytics.clearAll()
       this.selectedLevelId = null
       this.render()
       this.showToast('Analytics data cleared')

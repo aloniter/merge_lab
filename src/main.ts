@@ -3,8 +3,7 @@ import { MergeGame } from './game/MergeGame'
 import { LevelEditor } from './game/LevelEditor'
 import { InsightsDashboard } from './insights/InsightsDashboard'
 import { SettingsScreen } from './settings/SettingsScreen'
-import { Tutorial } from './game/Tutorial'
-import { SoundManager } from './audio/SoundManager'
+
 import { levels, getLevel, type Level, isLevelCompleted } from './data/levels'
 
 type Screen = 'main-menu' | 'editor' | 'insights' | 'settings'
@@ -15,7 +14,7 @@ class App {
   private insightsDashboard: InsightsDashboard | null = null
   private settings: SettingsScreen | null = null
   private currentLevelId: number = 1
-  private isPlaying: boolean = false
+
 
   constructor() {
     this.initDarkMode()
@@ -315,7 +314,7 @@ class App {
 
   private startLevel(levelId: number, customLevel?: Level) {
     this.currentLevelId = levelId
-    this.isPlaying = true
+
 
     if (!this.game) {
       this.game = new MergeGame('game-container')
@@ -334,7 +333,7 @@ class App {
       this.startLevel(nextLevelId)
     } else {
       // All levels complete
-      this.isPlaying = false
+
       this.exitLevel()
     }
   }
@@ -363,7 +362,7 @@ class App {
   }
 
   private exitLevel(): void {
-    this.isPlaying = false
+
     this.navigateTo('main-menu')
     this.updateCurrentLevelLabel()
   }
