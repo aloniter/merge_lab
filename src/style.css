@@ -41,6 +41,7 @@
 }
 
 @layer components {
+
   /* Screen transitions */
   .screen {
     @apply hidden;
@@ -56,6 +57,7 @@
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -97,9 +99,11 @@
     0% {
       transform: scale(1);
     }
+
     50% {
       transform: scale(1.25);
     }
+
     100% {
       transform: scale(1);
     }
@@ -209,6 +213,7 @@
       opacity: 0;
       transform: translateX(-50%) translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
@@ -275,6 +280,63 @@
     @apply block text-xs text-gray-600 dark:text-gray-400 mb-1;
   }
 
+  /* Editor specific styles */
+  .editor-container {
+    @apply px-6 py-8 bg-gradient-to-b from-gray-50 to-white dark:from-[#1a1a2e] dark:to-[#221019] min-h-screen pb-32;
+  }
+
+  .editor-title {
+    @apply text-3xl font-black text-gray-900 dark:text-white mb-6 text-center;
+  }
+
+  .editor-section {
+    @apply mb-6 bg-white dark:bg-[#2A1821] p-5 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm;
+  }
+
+  .editor-label {
+    @apply block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2;
+  }
+
+  .editor-select {
+    @apply w-full px-4 py-3 bg-gray-50 dark:bg-[#1a1a2e] border border-gray-300 dark:border-white/20 rounded-xl text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary focus:border-primary transition-all;
+  }
+
+  .editor-input {
+    @apply w-full px-4 py-3 bg-gray-50 dark:bg-[#1a1a2e] border border-gray-300 dark:border-white/20 rounded-xl text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary focus:border-primary transition-all;
+  }
+
+  .editor-btn {
+    @apply px-6 py-3 rounded-xl font-bold transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .editor-btn.primary {
+    @apply bg-primary hover:bg-primary/90 text-white shadow-md;
+  }
+
+  .editor-btn.success {
+    @apply bg-green-600 hover:bg-green-700 text-white shadow-md w-full;
+  }
+
+  .editor-btn.danger {
+    @apply bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1;
+  }
+
+  .editor-btn:not(.primary):not(.success):not(.danger) {
+    @apply bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/20 text-gray-700 dark:text-white;
+  }
+
+  .editor-actions {
+    @apply flex gap-3 mb-6;
+  }
+
+  .editor-actions .editor-btn {
+    @apply flex-1;
+  }
+
+  .play-section {
+    @apply border-2 border-primary/30 bg-primary/5;
+  }
+
   /* Tutorial overlay */
   .tutorial-overlay {
     @apply fixed inset-0 flex items-center justify-center z-50;
@@ -284,6 +346,7 @@
 }
 
 @layer utilities {
+
   /* Custom utility classes if needed */
   .tap-highlight-none {
     -webkit-tap-highlight-color: transparent;
