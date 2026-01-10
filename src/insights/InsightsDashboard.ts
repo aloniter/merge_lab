@@ -60,7 +60,8 @@ export class InsightsDashboard {
           <div class="text-center bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-2xl p-8">
             <span class="material-symbols-outlined text-6xl text-primary mb-4 block">analytics</span>
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Analytics Data Yet</h3>
-            <p class="text-gray-600 dark:text-gray-400">Play some levels to start tracking your progress!</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Play some levels to start tracking your progress!</p>
+            <button class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all active:scale-95" id="load-demo-data">Load Demo Data</button>
           </div>
         </div>
       </div>
@@ -219,6 +220,14 @@ export class InsightsDashboard {
     if (clearBtn) {
       clearBtn.addEventListener('click', () => {
         this.clearData()
+      })
+    }
+    const loadDemoBtn = document.getElementById('load-demo-data')
+    if (loadDemoBtn) {
+      loadDemoBtn.addEventListener('click', () => {
+        this.analytics.generateMockData()
+        this.render()
+        this.showToast('Demo data loaded')
       })
     }
   }

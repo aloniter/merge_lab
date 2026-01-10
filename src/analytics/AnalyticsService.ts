@@ -325,4 +325,65 @@ export class AnalyticsService {
     data.currentSession = this.currentSession
     this.saveData(data)
   }
+
+  generateMockData(): void {
+    this.clearAll()
+    const now = Date.now()
+    const DAY_MS = 86400000
+
+    // Configuration for the "story"
+    const levelConfigs = [
+      { id: 1, attempts: 45, winRate: 0.92, avgDuration: 45, avgMoves: 12 },
+      { id: 2, attempts: 38, winRate: 0.78, avgDuration: 65, avgMoves: 18 },
+      // churn point - user narrative
+      { id: 3, attempts: 32, winRate: 0.42, avgDuration: 95, avgMoves: 24, failReason: 'out_of_moves' },
+      { id: 4, attempts: 15, winRate: 0.65, avgDuration: 80, avgMoves: 20 },
+      { id: 5, attempts: 8, winRate: 0.55, avgDuration: 110, avgMoves: 28 },
+    ]
+
+    levelConfigs.forEach(config => {
+      // Create wins
+      const wins = Math.round(config.attempts * config.winRate)
+      const fails = config.attempts - wins
+
+      // Generate Wins
+      for (let i = 0; i < wins; i++) {
+        const timeOffset = Math.floor(Math.random() * DAY_MS * 7) // Spread over last 7 days
+        this.saveEvent({
+          eventType: 'level_end',
+          levelId: config.id,
+          timestamp: now - timeOffset,
+          metadata: {
+            result: 'win',
+            durationSec: config.avgDuration + (Math.random() * 20 - 10),
+            movesUsed: config.avgMoves + Math.floor(Math.random() * 6 - 3)
+          }
+        })
+      }
+
+      // Generate Fails
+      for (let i = 0; i < fails; i++) {
+        const timeOffset = Math.floor(Math.random() * DAY_MS * 7)
+        // For level 3, mostly "out_of_moves" to support the narrative
+        // For others, random mix
+        let reason: 'out_of_moves' | 'orders_not_completed' = Math.random() > 0.5 ? 'out_of_moves' : 'orders_not_completed'
+
+        if (config.id === 3 && config.failReason) {
+          reason = Math.random() > 0.2 ? 'out_of_moves' : 'orders_not_completed' // 80% out of moves
+        }
+
+        this.saveEvent({
+          eventType: 'level_end',
+          levelId: config.id,
+          timestamp: now - timeOffset,
+          metadata: {
+            result: 'fail',
+            durationSec: config.avgDuration + (Math.random() * 30), // Fails often take longer
+            movesUsed: config.avgMoves + 5, // Used all moves
+            failReason: reason
+          }
+        })
+      }
+    })
+  }
 }
