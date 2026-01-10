@@ -3,6 +3,7 @@ import { MergeGame } from './game/MergeGame'
 import { LevelEditor } from './game/LevelEditor'
 import { InsightsDashboard } from './insights/InsightsDashboard'
 import { SettingsScreen } from './settings/SettingsScreen'
+import { AnalyticsService } from './analytics/AnalyticsService'
 
 import { levels, getLevel, type Level, isLevelCompleted } from './data/levels'
 
@@ -18,9 +19,21 @@ class App {
 
   constructor() {
     this.initDarkMode()
+    this.initAnalytics()
     this.render()
     this.setupNavigation()
     this.navigateTo('main-menu')
+  }
+
+  private initAnalytics(): void {
+    // Auto-load realistic insights data on first launch
+    const analytics = AnalyticsService.getInstance()
+    const events = analytics.getEvents()
+
+    if (events.length === 0) {
+      console.log('First launch detected - loading realistic insights data for 74 players')
+      analytics.generateMockData()
+    }
   }
 
   private initDarkMode(): void {

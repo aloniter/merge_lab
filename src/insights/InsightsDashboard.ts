@@ -61,7 +61,7 @@ export class InsightsDashboard {
             <span class="material-symbols-outlined text-6xl text-primary mb-4 block">analytics</span>
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Analytics Data Yet</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">Play some levels to start tracking your progress!</p>
-            <button class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all active:scale-95" id="load-demo-data">Load Demo Data</button>
+            <button class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all active:scale-95" id="load-demo-data" title="Generate fresh realistic insights data">Regenerate Data</button>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@ export class InsightsDashboard {
         <div class="space-y-3">
           <div class="insights-stat">
             <span class="stat-label">Total Attempts</span>
-            <span class="stat-value">${totalAttempts}</span>
+            <span class="stat-value">${totalAttempts.toLocaleString()}</span>
           </div>
           <div class="insights-stat">
             <span class="stat-label">Overall Win Rate</span>
@@ -95,7 +95,7 @@ export class InsightsDashboard {
           </div>
           <div class="insights-stat">
             <span class="stat-label">Most Played Level</span>
-            <span class="stat-value">Level ${mostPlayedLevel.levelId} (${mostPlayedLevel.attempts} attempts)</span>
+            <span class="stat-value">Level ${mostPlayedLevel.levelId} (${mostPlayedLevel.attempts.toLocaleString()} attempts)</span>
           </div>
           <div class="insights-stat">
             <span class="stat-label">Hardest Level</span>

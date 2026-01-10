@@ -331,14 +331,44 @@ export class AnalyticsService {
     const now = Date.now()
     const DAY_MS = 86400000
 
-    // Configuration for the "story"
+    // Realistic data for 74 unique players with natural progression funnel
+    // Total: ~2,586 attempts across 30 levels
     const levelConfigs = [
-      { id: 1, attempts: 45, winRate: 0.92, avgDuration: 45, avgMoves: 12 },
-      { id: 2, attempts: 38, winRate: 0.78, avgDuration: 65, avgMoves: 18 },
-      // churn point - user narrative
-      { id: 3, attempts: 32, winRate: 0.42, avgDuration: 95, avgMoves: 24, failReason: 'out_of_moves' },
-      { id: 4, attempts: 15, winRate: 0.65, avgDuration: 80, avgMoves: 20 },
-      { id: 5, attempts: 8, winRate: 0.55, avgDuration: 110, avgMoves: 28 },
+      // Early levels (1-10) - High engagement
+      { id: 1, attempts: 89, winRate: 0.95, avgDuration: 35, avgMoves: 8 },
+      { id: 2, attempts: 94, winRate: 0.92, avgDuration: 40, avgMoves: 10 },
+      { id: 3, attempts: 126, winRate: 0.85, avgDuration: 55, avgMoves: 12, failReason: 'out_of_moves' },
+      { id: 4, attempts: 95, winRate: 0.90, avgDuration: 45, avgMoves: 11 },
+      { id: 5, attempts: 99, winRate: 0.88, avgDuration: 50, avgMoves: 12 },
+      { id: 6, attempts: 102, winRate: 0.86, avgDuration: 55, avgMoves: 13 },
+      { id: 7, attempts: 105, winRate: 0.84, avgDuration: 60, avgMoves: 14 },
+      { id: 8, attempts: 120, winRate: 0.78, avgDuration: 70, avgMoves: 16, failReason: 'out_of_moves' },
+      { id: 9, attempts: 104, winRate: 0.82, avgDuration: 65, avgMoves: 15 },
+      { id: 10, attempts: 106, winRate: 0.80, avgDuration: 70, avgMoves: 16 },
+
+      // Medium levels (11-20) - Moderate engagement
+      { id: 11, attempts: 109, winRate: 0.76, avgDuration: 75, avgMoves: 17 },
+      { id: 12, attempts: 110, winRate: 0.72, avgDuration: 80, avgMoves: 18 },
+      { id: 13, attempts: 113, winRate: 0.68, avgDuration: 90, avgMoves: 20, failReason: 'out_of_moves' },
+      { id: 14, attempts: 92, winRate: 0.74, avgDuration: 85, avgMoves: 19 },
+      { id: 15, attempts: 94, winRate: 0.70, avgDuration: 90, avgMoves: 20 },
+      { id: 16, attempts: 94, winRate: 0.66, avgDuration: 95, avgMoves: 21 },
+      { id: 17, attempts: 92, winRate: 0.62, avgDuration: 100, avgMoves: 22 },
+      { id: 18, attempts: 90, winRate: 0.58, avgDuration: 110, avgMoves: 24, failReason: 'orders_not_completed' },
+      { id: 19, attempts: 76, winRate: 0.64, avgDuration: 105, avgMoves: 23 },
+      { id: 20, attempts: 75, winRate: 0.60, avgDuration: 110, avgMoves: 24 },
+
+      // Hard levels (21-30) - Low engagement
+      { id: 21, attempts: 77, winRate: 0.55, avgDuration: 115, avgMoves: 25 },
+      { id: 22, attempts: 77, winRate: 0.50, avgDuration: 120, avgMoves: 26 },
+      { id: 23, attempts: 80, winRate: 0.45, avgDuration: 130, avgMoves: 28, failReason: 'out_of_moves' },
+      { id: 24, attempts: 65, winRate: 0.52, avgDuration: 125, avgMoves: 27 },
+      { id: 25, attempts: 61, winRate: 0.48, avgDuration: 130, avgMoves: 28 },
+      { id: 26, attempts: 63, winRate: 0.42, avgDuration: 140, avgMoves: 30, failReason: 'orders_not_completed' },
+      { id: 27, attempts: 59, winRate: 0.40, avgDuration: 145, avgMoves: 31 },
+      { id: 28, attempts: 48, winRate: 0.46, avgDuration: 140, avgMoves: 30 },
+      { id: 29, attempts: 48, winRate: 0.38, avgDuration: 150, avgMoves: 32 },
+      { id: 30, attempts: 44, winRate: 0.35, avgDuration: 160, avgMoves: 34, failReason: 'orders_not_completed' },
     ]
 
     levelConfigs.forEach(config => {
@@ -348,7 +378,7 @@ export class AnalyticsService {
 
       // Generate Wins
       for (let i = 0; i < wins; i++) {
-        const timeOffset = Math.floor(Math.random() * DAY_MS * 7) // Spread over last 7 days
+        const timeOffset = Math.floor(Math.random() * DAY_MS * 30) // Spread over last 30 days
         this.saveEvent({
           eventType: 'level_end',
           levelId: config.id,
@@ -363,13 +393,14 @@ export class AnalyticsService {
 
       // Generate Fails
       for (let i = 0; i < fails; i++) {
-        const timeOffset = Math.floor(Math.random() * DAY_MS * 7)
-        // For level 3, mostly "out_of_moves" to support the narrative
-        // For others, random mix
+        const timeOffset = Math.floor(Math.random() * DAY_MS * 30) // Spread over last 30 days
+        // For difficulty spike levels, use specific fail reasons
         let reason: 'out_of_moves' | 'orders_not_completed' = Math.random() > 0.5 ? 'out_of_moves' : 'orders_not_completed'
 
-        if (config.id === 3 && config.failReason) {
-          reason = Math.random() > 0.2 ? 'out_of_moves' : 'orders_not_completed' // 80% out of moves
+        if (config.failReason) {
+          // For marked difficulty spikes, heavily favor the specified fail reason
+          const specifiedReason = config.failReason as 'out_of_moves' | 'orders_not_completed'
+          reason = Math.random() > 0.2 ? specifiedReason : (specifiedReason === 'out_of_moves' ? 'orders_not_completed' : 'out_of_moves')
         }
 
         this.saveEvent({
@@ -379,7 +410,7 @@ export class AnalyticsService {
           metadata: {
             result: 'fail',
             durationSec: config.avgDuration + (Math.random() * 30), // Fails often take longer
-            movesUsed: config.avgMoves + 5, // Used all moves
+            movesUsed: config.avgMoves + Math.floor(Math.random() * 4), // Varied move usage on fail
             failReason: reason
           }
         })
