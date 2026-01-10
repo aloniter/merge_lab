@@ -23,7 +23,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Build with GitHub Pages base path
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /merge_lab/
       - name: Verify build output
         run: |
           echo "Checking dist directory contents..."

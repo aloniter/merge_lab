@@ -4,10 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Merge Lab</title>
-  <meta http-equiv="refresh" content="0;URL='/merge_lab/'" />
   <script>
-    // Redirect to root since this game doesn't use URL routing
-    window.location.replace('/merge_lab/');
+    // Smart redirect that detects the base path
+    // For GitHub Pages: redirect to /merge_lab/
+    // For Vercel or other: redirect to /
+    (function() {
+      const hostname = window.location.hostname;
+      let basePath = '/';
+
+      // Detect GitHub Pages
+      if (hostname.includes('github.io')) {
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        if (pathParts.length > 0) {
+          // Use the first path segment as base (e.g., /merge_lab/)
+          basePath = '/' + pathParts[0] + '/';
+        }
+      }
+
+      window.location.replace(basePath);
+    })();
   </script>
   <style>
     body {
