@@ -8,7 +8,7 @@ import type {
 export class AnalyticsService {
   private static instance: AnalyticsService
   private readonly storageKey = 'mergeLab_analytics'
-  private readonly MAX_EVENTS = 1000
+  private readonly MAX_EVENTS = 3000  // Accommodate ~2,586 mock events + real gameplay
 
   private currentSession: {
     levelId: number | null
