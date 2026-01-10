@@ -23,7 +23,15 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build -- --base=/merge_lab/
+      - run: npm run build
+      - name: Verify build output
+        run: |
+          echo "Checking dist directory contents..."
+          ls -la dist/
+          test -f dist/.nojekyll && echo "✓ .nojekyll found" || (echo "✗ .nojekyll missing" && exit 1)
+          test -f dist/404.html && echo "✓ 404.html found" || (echo "✗ 404.html missing" && exit 1)
+          test -f dist/index.html && echo "✓ index.html found" || (echo "✗ index.html missing" && exit 1)
+          test -f dist/favicon.ico && echo "✓ favicon.ico found" || (echo "✗ favicon.ico missing" && exit 1)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
